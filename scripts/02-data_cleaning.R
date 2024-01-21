@@ -1,44 +1,48 @@
 #### Preamble ####
-# Purpose: Cleans the raw plane data recorded by two observers..... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 6 April 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Cleans the raw Toronto Shelter System Flow data
+# Author: Krishiv Jain
+# Date: 20 January 2024
+# Contact: krishiv.jain@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: none
 
 #### Workspace setup ####
 library(tidyverse)
 
-#### Clean data ####
-raw_data <- read_csv("inputs/data/plane_data.csv")
+#### Read in the raw data ####
+raw_refugees_shelters_data <-
+  read_csv(
+    file = "inputs/data/refugees_in_shelters.csv",
+    show_col_types = FALSE
+  )
+
+#### Cleaning data ####
 
 cleaned_data <-
-  raw_data |>
-  janitor::clean_names() |>
-  select(wing_width_mm, wing_length_mm, flying_time_sec_first_timer) |>
-  filter(wing_width_mm != "caw") |>
-  mutate(
-    flying_time_sec_first_timer = if_else(flying_time_sec_first_timer == "1,35",
-                                   "1.35",
-                                   flying_time_sec_first_timer)
-  ) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "490",
-                                 "49",
-                                 wing_width_mm)) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "6",
-                                 "60",
-                                 wing_width_mm)) |>
-  mutate(
-    wing_width_mm = as.numeric(wing_width_mm),
-    wing_length_mm = as.numeric(wing_length_mm),
-    flying_time_sec_first_timer = as.numeric(flying_time_sec_first_timer)
-  ) |>
-  rename(flying_time = flying_time_sec_first_timer,
-         width = wing_width_mm,
-         length = wing_length_mm
-         ) |> 
-  tidyr::drop_na()
+  clean_names(raw_refugees_shelters_data)
+
+## Keeping refugee rows ##
+refugees_data <- cleaned_data[raw_refugees_shelters_data$population_group == "Refugees",]
+
+## Creating new date col in date format and replacing old one, and renaming it ##
+start = as.Date("2018-01-31")
+end = as.Date("2023-12-31")
+refugees_data$date_mmm_yy = seq(start + 1, end + 1, by = "1 month") - 1
+refugees_data <- refugees_data |> 
+  rename(date = date_mmm_yy)
+
+## Adding a new column that adds all ages to give total ##
+total_refugees_data <- mutate(refugees_data, total = ageunder16 + age16_24 + age25_44 + age45_64 + age65over)
+
+## Keeping necessary columns ##
+final_refugees_data <- select(total_refugees_data, date, newly_identified, population_group_percentage, total)
+
+## Converting percentage col to numeric ##
+final_refugees_data$population_group_percentage <- 
+  as.numeric(sub("%", "",final_refugees_data$population_group_percentage))
 
 #### Save data ####
-write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+write_csv(
+  x = final_refugees_data,
+  file = "final_refugees_data.csv"
+)
