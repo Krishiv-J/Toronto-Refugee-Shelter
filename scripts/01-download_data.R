@@ -1,26 +1,27 @@
 #### Preamble ####
-# Purpose: Downloads and saves the data from [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Downloads and saves the data from Open Data Toronto 
+# Author: Krishiv Jain
+# Date: 20 January 2024
+# Contact: krishiv.jain@utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
-
+# Pre-requisites: none
+# Dataset: https://open.toronto.ca/dataset/toronto-shelter-system-flow/ 
 
 #### Workspace setup ####
 library(opendatatoronto)
 library(tidyverse)
-# [...UPDATE THIS...]
+library(janitor)
 
 #### Download data ####
-# [...ADD CODE HERE TO DOWNLOAD...]
 
+#Code from: https://open.toronto.ca/dataset/toronto-shelter-system-flow/
 
+## Get package ##
+refugees_in_shelters <-
+  list_package_resources("ac77f532-f18b-427c-905c-4ae87ce69c93") |>
+  filter(name ==
+           "toronto-shelter-system-flow.csv") |>
+  get_resource()
 
 #### Save data ####
-# [...UPDATE THIS...]
-# change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "inputs/data/raw_data.csv") 
-
-         
+write_csv(refugees_in_shelters, "inputs/data/refugees_in_shelters.csv")
