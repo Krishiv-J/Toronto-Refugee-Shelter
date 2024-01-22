@@ -42,7 +42,4 @@ final_refugees_data$population_group_percentage <-
   as.numeric(sub("%", "",final_refugees_data$population_group_percentage))
 
 #### Save data ####
-write_csv(
-  x = final_refugees_data,
-  file = "final_refugees_data.csv"
-)
+write_csv(final_refugees_data, "outputs/data/final_refugees_data.csv")
