@@ -1,10 +1,11 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Refugees in Toronto's Shelters: Investigating Refugee Access and 
+Discrimination, and Unraveling Media Narratives"
 author: 
   - Krishiv Jain
-thanks: "Code and data are available at: LINK."
-date: today
+thanks: "Code and data are available at: 
+https://github.com/Krishiv-J/Toronto-Refugee-Shelter.git"
+date: 23/01/24
 date-format: long
 abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
 format: pdf
