@@ -25,8 +25,8 @@ cleaned_data <-
 refugees_data <- cleaned_data[raw_refugees_shelters_data$population_group == "Refugees",]
 
 ## Creating new date col in date format and replacing old one, and renaming it ##
-start = as.Date("2018-01-15")
-end = as.Date("2023-12-15")
+start = as.Date("2018-01-01")
+end = as.Date("2023-12-01")
 refugees_data$date_mmm_yy = seq(start + 1, end + 1, by = "1 month") - 1
 refugees_data <- refugees_data |> 
   rename(date = date_mmm_yy)
