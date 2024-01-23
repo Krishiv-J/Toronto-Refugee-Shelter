@@ -71,17 +71,47 @@ final_refugees_data |>
 #| message: false
 #| label: fig-totalgraph
 #| fig-cap: "Graph showing Total Refugees Over Time"
+#| fig-pos: H
 
 final_refugees_data |>
   ggplot(mapping = aes(x = Date, y = Total_Refugees)) +
   geom_line() +
   geom_point() +
   theme_minimal() +
-  labs(x = "Date (Monthly)", y = "Total Refugees", 
+  labs(x = "Date (Monthly)", y = "Total Refugees in Shelters", 
        caption = "Data source: City of Toronto Open Data") +
   scale_x_date(date_labels = "%b %Y", date_breaks = "1 year")
 ```
 
+```{r}
+#| echo: false
+#| include: true
+#| message: false
+#| label: Summary Statistics
+#| tbl-cap: "Summary Statistics"
+#| fig-pos: H
+
+#Based on: https://tellingstorieswithdata.com/05-static_communication.html#tables
+
+## Table of Means ##
+summary_mean <- final_refugees_data |>
+  summarise(across(c(New_Refugees, Total_Refugees, Percentage_of_Total), 
+                   list(mean = mean)))
+
+## Table of SDs ##
+summary_sd <- final_refugees_data |>
+  summarise(across(c(New_Refugees, Total_Refugees, Percentage_of_Total), 
+                   list(sd = sd)))
+
+#Based on: https://www.geeksforgeeks.org/create-table-from-dataframe-in-r/
+## Final Table ##
+kable(data.frame(
+    Metric = c("New_Refugees", "Total_Refugees", "Percentage_of_Total"),
+    Mean = c(summary_mean$New_Refugees_mean, summary_mean$Total_Refugees_mean, summary_mean$Percentage_of_Total_mean),
+    SD = c(summary_sd$New_Refugees_sd, summary_sd$Total_Refugees_sd, summary_sd$Percentage_of_Total_sd)
+))
+
+```
 
 ```{r}
 #| echo: false
@@ -89,6 +119,7 @@ final_refugees_data |>
 #| message: false
 #| label: fig-newgraph
 #| fig-cap: "Graph showing Trend of New Refugees Over Time"
+#| fig-pos: H
 
 final_refugees_data |>
   ggplot(mapping = aes(x = Date, y = New_Refugees)) +
@@ -107,6 +138,7 @@ final_refugees_data |>
 #| message: false
 #| label: fig-percentgraph
 #| fig-cap: "Graph showing Trend of Refugees Percentage of Population Over Time"
+#| fig-pos: H
 
 final_refugees_data |>
   ggplot(mapping = aes(x = Date, y = Percentage_of_Total)) +
@@ -117,9 +149,6 @@ final_refugees_data |>
        caption = "Data source: City of Toronto Open Data") +
   scale_x_date(date_labels = "%b %Y", date_breaks = "1 year")
 ```
-
-
-
 
 # Discussion
 
