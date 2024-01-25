@@ -1,10 +1,8 @@
-# Starter folder
+# Refugee Homelessness in Toronto
 
 ## Overview
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
-
-To use this folder, click the green "Code" button", then "Download ZIP". Move the downloaded folder to where you want to work on your own computer, and then modify it to suit.
+This paper uses data from the City of Toronto's Open Data Portal to access and evaluate the recent policy changes and funding increases implemented to combat the refugees' homelessness problems in Toronto. 
 
 ## File Structure
 
@@ -14,3 +12,6 @@ The repo is structured as:
 -   `outputs/data` contains the cleaned dataset that was constructed.
 -   `outputs/paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
 -   `scripts` contains the R scripts used to simulate, download and clean data.
+
+-   ## LLM Usage
+-   Chat-GPT 3.5, an LLM, was used to assist with certain coding aspects of the paper, for instance, it was used to create a graph that combines 2 metrics. The entire chat history is included in `input/llm`
