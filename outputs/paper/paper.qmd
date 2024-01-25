@@ -1,5 +1,5 @@
 ---
-title: "Refugees in Toronto's Homeless Shelters: Evaluating the Need and Impact of Recent Policies and Increased Funding"
+title: "Refugees in Toronto's Homeless Shelters: Evaluating the Impact of Recent Policies and Increased Funding"
 author: 
   - Krishiv Jain
 thanks: "Code and data are available at: https://github.com/Krishiv-J/Toronto-Refugee-Shelter.git"
