@@ -1,11 +1,11 @@
 ---
-title: "Evaluating the Need and Impact of Recent Policies and Increased Funding on Refugees in Toronto's Homeless Shelters"
+title: "Refugees in Toronto's Homeless Shelters: Evaluating the Need and Impact of Recent Policies and Increased Funding"
 author: 
   - Krishiv Jain
 thanks: "Code and data are available at: https://github.com/Krishiv-J/Toronto-Refugee-Shelter.git"
-date: 2024-01-23
+date: 2024-01-25
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "In July 2023, a policy was changed and funding was increased to combat the issue of refugees in Toronto facing homelessnes. An analysis of data from the past five years reveals that, despite a pre-existing upward trajectory in refugee figures prior to the July 2023, the subsequent influx of funding and policy adjustments led to increased refugee access. Further analysis can be performed once more data becomes available."
 format: pdf
 toc: true
 number-sections: true
@@ -21,9 +21,7 @@ library(tidyverse)
 library(here)
 library(knitr)
 library(tinytex)
-library(tibble)
 library(janitor)
-library(ggplot2)
 ```
 
 
@@ -34,6 +32,10 @@ Homelessness is a major problem in the city of Toronto, where over 9000 people a
 In the first half of 2023, news outlets reported of a “shelter crisis,” where there were overcapacity issues of the “overburdened” shelter system [@sunnews1]. Specifically, news outlets reported that refugees, or asylum seekers, were being blocked from entering the shelter system, and “were left sleeping on the streets” [@starnews1]. In July 2023, Toronto May Olivia Chow passed a motion that ensured refugees would be able to access all of the city’s shelters, as opposed to only those specifically designed for refugees [@cp24news2]. Moreover, in the same month, the federal Canadian government provided an additional $97 million to the city of Toronto to "house asylum seekers" [@starnews2]. However, despite these fairly significant changes, news outlets still reported on concerns regarding the number of refugees not being able to access the shelters [@cbcnews1 ; @cp24news2]. 
 
 This paper aims to understanding the situation of refugees within the Toronto Shelter System, and the evaluate the effectiveness of the aforementioned policy changes and increased funding. To address this, data on “Toronto Shelter System Flow” is used, accessed from The City of Toronto’s Open Data Portal. [@dataset]. Data from the past 5 years is used to be able to compare the numbers seen in 2023 to historical trends. The specific metrics considered are the total number of refugees in shelters, the number of new refugees that have entered the system, and the percentage of the total shelter population that is comprised of refugees. 
+
+The paper finds that, while the Toronto Shelter System saw a rising trend in refugee numbers even before the policy change and increased funding in July 2023, the changes appear to have contributed to sustaining and amplifying this trend. 
+
+The paper is structured as follows: Data, Results, and Discussion. The context behind the data used and the cleaning procedure is discussed in the data section. The results section introduces the graph and some summary statistics. The discussion section evaluates the trends observed and connects it to the underlying research topic, as well as discussing limitations of the analysis. 
 
 ```{r}
 #| echo: false
@@ -50,7 +52,9 @@ options(digits = 3)
 ```
 
 # Data {#sec-data}
-As mentioned above, the data in this paper is the dataset “Toronto Shelter System Flow” from the City of Toronto’s Open Data Portal. The data was downloaded, cleaned, and analyzed using the statistical programming language R [@citeR]. The dataset “Toronto Shelter System Flow” comprises of data from Shelter Management Information System (SMIS), which is used by Torontonian shelters to document each specific person who is entering and exiting the shelter system. Data is reported for every month for the past 5 years (2018 to 2023) for various populations, such as single adults, indigenous, youth, and refugees, and is refreshed every month. Moreover, a number of metrics for each population are reported, such as the number that moved to permanent housing, the number that have entered the system for the first time, the number who are below the age of 16, and numerous others [@dataset]. For the purpose of this paper, the focus is placed on refugees, thus, every other population was removed. The dataset does not provide a specific metric on the total number of refugees in the system per month. However, data  split the total based on the age bracket they fell into ("ageunder16", "age16-24", "age25-44", ...) was included. Therefore, to calculate the total, a new column that sums all the “age” columns was added. After this calculation, every column, apart from the column on the number of people who entered the system for the first time, and the refugee population as a percentage of the total population, was removed (see @tbl-sample).  Given the use of the SMIS, no similar databases existed for the city of Toronto. @tbl-summary provides the summary statistics.  
+As mentioned above, the data in this paper is the data set “Toronto Shelter System Flow” from the City of Toronto’s Open Data Portal. The data was downloaded, cleaned, and analyzed using the statistical programming language R [@citeR]. The following packages were also used: janitor [@citejanitor], here [@citehere], as well as tidyverse [@citetidyverse], which includes the dplyr [@citedplyr], tibble [@citetibble], and ggplot2 [@citeggplot2] packages.
+
+The data set “Toronto Shelter System Flow” comprises of data from Shelter Management Information System (SMIS), which is used by Torontonian shelters to document each specific person who is entering and exiting the shelter system. Data is reported for every month for the past 5 years (2018 to 2023) for various populations, such as single adults, indigenous, youth, and refugees, and is refreshed every month. Moreover, a number of metrics for each population are reported, such as the number that moved to permanent housing, the number that have entered the system for the first time, the number who are below the age of 16, and numerous others [@dataset]. For the purpose of this paper, the focus is placed on refugees, thus, every other population was removed. The data set does not provide a specific metric on the total number of refugees in the system per month. However, data  split the total based on the age bracket they fell into ("ageunder16", "age16-24", "age25-44", ...) was included. Therefore, to calculate the total, a new column that sums all the “age” columns was added. After this calculation, every column, apart from the column on the number of people who entered the system for the first time, and the refugee population as a percentage of the total population, was removed (see @tbl-sample).  Given the use of the SMIS, no similar databases existed for the city of Toronto. @tbl-summary provides the summary statistics.  
 
 # Results
 
@@ -94,7 +98,7 @@ The most recent data, which is for December 2023, shows that the total number of
 #| fig-cap: "Graph showing Total Refugees Over Time"
 #| fig-pos: H
 #| fig-width: 6.5
-#| fig-height: 3.25
+#| fig-height: 3.1
 
 final_refugees_data |>
   ggplot(mapping = aes(x = Date, y = Total_Refugees)) +
@@ -115,7 +119,7 @@ In December 2023, there were 621 refugees newly admitted into the shelter system
 #| fig-cap: "Graph showing Trend of New Refugees Over Time"
 #| fig-pos: H
 #| fig-width: 6.5
-#| fig-height: 3.25
+#| fig-height: 3.1
 
 final_refugees_data |>
   ggplot(mapping = aes(x = Date, y = New_Refugees)) +
@@ -136,7 +140,7 @@ In December 2023, the portion of refugees within the total shelter population wa
 #| fig-cap: "Graph showing Trend of Refugees Percentage of Population Over Time"
 #| fig-pos: H
 #| fig-width: 6.5
-#| fig-height: 3.25
+#| fig-height: 3.1
 
 final_refugees_data |>
   ggplot(mapping = aes(x = Date, y = Percentage_of_Total)) +
@@ -147,7 +151,7 @@ final_refugees_data |>
        caption = "Data source: City of Toronto Open Data") +
   scale_x_date(date_labels = "%b %Y", date_breaks = "1 year")
 ```
-## Total number of refugees in the system and Refugees Percentage of Population Combined 
+## Total Refugees and Refugees' Percentage of Population Combined 
 ```{r}
 #| echo: false
 #| include: true
@@ -197,10 +201,11 @@ Looking at the @fig-newgraph, a similar trend is observed in 2020 and 2021 due t
 
 Moreover, since the pandemic, apart from December 2022, the number observed were consistently lower than pre-pandemic levels. In September 2023, and the months following it, there is a steep increase in the number, before a small decline in January 2024. Based on this, we can conclude that the policy change and increased funding was effective in admitted more refugees into the shelter system, and helped push the number to pre-pandemic levels. However, to further access the need and effectiveness of the policy change and funding, the refugee percent of the total population is evaluated. A increase in this metric would indicate that refugees were comprising of a larger portion of the total population, and help evaluate if the policy changes implemented specifically for refugees was effective. 
 
-The data and trends in @fig-percentgraph look quite similar to that observed in Figure 1. There is the same relative stability seen prior to the pandemic, the same decline seen during the pandemic, and the same increasing trend after the pandemic. @fig-doublegraph plots both datasets on the same graph. The same trends being observed in the 2 datasets implies that the sizes of other population segments have likely remained relatively constant. This would suggest that the "overburdened" shelter system was caused due to an influx of refugees, which increased demand for the shelter's services. 2023 saw "more and more" refugees entering Canada, predominantly driven by the an increase in the number of global conflicts and crises [@cbcnews2]. This influx led to refugee-focused policy changes, and prompted the increase funding. Once again though, even prior to the policy change and funding, an increasing trend is observed. However, the policy likely helped sustain the increasing trend, and pushed it to highs not seen during the last 5 years. 
+The data and trends in @fig-percentgraph look quite similar to that observed in Figure 1. There is the same relative stability seen prior to the pandemic, the same decline seen during the pandemic, and the same increasing trend after the pandemic. @fig-doublegraph plots both data sets on the same graph. The same trends being observed in the 2 data sets implies that the sizes of other population segments have likely remained relatively constant. This would suggest that the "overburdened" shelter system was caused due to an influx of refugees, which increased demand for the shelter's services. 2023 saw "more and more" refugees entering Canada, predominantly driven by the an increase in the number of global conflicts and crises [@cbcnews2]. This influx led to refugee-focused policy changes, and prompted the increase funding. Once again though, even prior to the policy change and funding, an increasing trend is observed. However, the policy likely helped sustain the increasing trend, and pushed it to highs not seen during the last 5 years. 
 
-## Weaknesses and next steps
-No data on the number leaving, or total number of refugees entering Toronto. 
+## Limitations
+
+Limitations of this study include the lack of data on the number of refugees leaving the shelter system, and the lack of data on the total number of refugees in Toronto. Having these metrics would have allowed for a better assessment of the policy and funding. Moreover, determining the full impact of the policy and funding may be premature, given the relatively short timeframe since its implementation. Furthermore, the data set specifically focuses on shelters utilising the Shelter Management Information System (SMIS) [@dataset]. Shelter sites not utilizing SMIS and those funded by other levels of government are not encompassed in the data set, potentially introducing a limitation in representing the entire spectrum of shelters in Toronto. Lastly, the data set solely captures quantitative information on the number and percentage of refugees in shelters. It lacks qualitative insights into the lived experiences of refugees navigating the system.
 
 \newpage
 
